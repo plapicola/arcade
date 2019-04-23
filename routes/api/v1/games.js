@@ -62,12 +62,28 @@ router.put("/:id/", function(req, res, next) {
     })
     .then(([gameCount, affectedGames]) => {
       res.setHeader('Content-Type', 'application/json');
-      res.status(200).send(JSON.stringify(affectedGames));
+      res.status(202).send(JSON.stringify(affectedGames));
     })
     .catch(error => {
       res.setHeader('Content-Type', 'application/json');
       res.status(500).send({error});
     });
+});
+
+router.delete("/:id/", function(req, res, next) {
+  Game.destroy({
+    where: {
+      id: parseInt(req.params.id)
+    }
+  })
+  .then(game => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(204).send();
+  })
+  .catch(error => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(500).send({error});
+  });
 });
 
 
